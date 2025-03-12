@@ -1,0 +1,205 @@
+labwork1
+
+CREATE TABLE Students(
+    Student_ID int primary key,
+    Student_Name varchar(20) not null,
+    Class varchar(20) not null,
+    Major varchar(20) not null
+    );
+
+insert into students(Student_ID,Student_Name, Class,Major)
+VALUES
+(1,'Amylee','BCA','Computer'),
+(2,'Arpana','BCA','Computer'),
+(3,'Prasamsa','BCA','Computer'),
+(4,'Sonu','BCA','Computer'),
+(5,'Shaily','BCA','Computer');
+
+create table Course(
+    CourseNo int primary key,#
+    CourseName varchar(20) not null,
+    Cr_Hr int not null,
+    Dept varchar(20) not null
+    );
+
+insert into course(CourseNo,CourseName,Cr_Hr,Dept)
+VALUES
+(15,'DBMS',10,'BCA'),
+ (16,'Operating System',4,'BCA'),
+ (17,'Scripting Language',6,'BCA'),
+(18,'Numerical Method',11,'BCA'),
+(19,'Software Engineering',9,'BCA');
+ 
+
+create table Section(
+    Sect_ID int primary key,
+    CourseNo int,
+    FOREIGN KEY(CourseNo) REFERENCES course(CourseNo),
+    Semester int not null,
+    Year int not null,
+    Instructor_Name varchar (20)
+);
+
+insert into section(Sect_ID,CourseNo,Semester,Year,Instructor_Name)
+VALUES
+(1,15,4,2024,'Mr.Bean'),
+(2,16,4,2024,'Mr.bill'),
+(3,17,4,2024,'Mr.Kumar'),
+(4,18,4,2024,'Mr.Gautam'),
+(5,19,4,2024,'Mr.Shrestha');
+
+create table GradeReport(
+    Student_ID int AUTO_INCREMENT,
+    FOREIGN KEY(Student_ID) REFERENCES students(Student_ID),
+    Sect_ID int,
+    Grade varchar(20)
+    );
+
+insert into gradereport(Student_ID,Sect_ID,Grade)
+VALUES
+(1,1,'A'),
+(2,2,'B'),
+(3,3,'C'),
+(4,4,'A'),
+(5,5,'B');
+
+create table Prequisite(
+    CourseNo int,
+    FOREIGN KEY(CourseNo) REFERENCES course(CourseNo),
+    Prequisite int primary key not null
+);
+
+insert into Prequisite(CourseNo,Prequisite)
+VALUES
+(15,1111),
+(16,2222),
+(17,3333),
+(18,4444),
+(19,5555);
+
+c) update Course
+SET
+Cr_Hr = 4
+WHERE
+CourseNo = 15;
+
+d)SELECT S.Student_Name, S.Major
+FROM Students S
+JOIN GradeReport G ON S.Student_ID = G.Student_ID
+WHERE G.Grade = 'A';
+
+e) DELETE FROM gradereport 
+where Sect_ID in(SELECT Sect_ID
+                from section
+                 WHERE Instructor_Name = 'Mr.Bean');
+
+f)SELECT COUNT(*) FROM `section`
+WHERE Instructor_Name = 'Mr.bill';
+
+g)SELECT COUNT(*) FROM `students`;
+
+h)DELETE FROM Students
+WHERE Student_ID IN (
+    SELECT G.Student_ID
+    FROM GradeReport G
+    JOIN Section S ON G.Sect_ID = S.Sect_ID
+    WHERE S.CourseNo = 15
+);
+
+i)
+
+j)
+
+k)insert into students(Student_ID, Student_Name, Class, Major)
+VALUES
+(6,'Manisha','BCA','computer'),
+(7,'Susma','BCA','computer');
+
+lab3
+a)
+create table employee(
+    empid int PRIMARY KEY AUTO_INCREMENT,
+    gender varchar(10),
+    name varchar(20),
+    dob int not null,
+    salary decimal(10,2),
+    address varchar(20),
+    dept_no int not null,
+    start_date date not null
+    );
+
+INSERT INTO Employee (empid, gender, name, dob, salary, address, dept_no, start_date) 
+VALUES
+(1, 'M', 'John', '2000-06-15', 60000, ' CityA', 1, '2015-03-01'),
+(2, 'F', 'Smith', '2001-04-20', 75000, 'CityB', 2, '2017-08-15'),
+(3, 'M', 'Mark', '1982-11-25', 85000, ' CityC', 3, '2010-12-10'),
+(4, 'F', 'Emily ', '2006-01-30', 95000, ' CityD', 2, '2020-07-25'),
+(5, 'M', ' Wilson', '1998-09-05', 55000, ' CityE', 1, '2018-05-12');
+
+
+create table department(
+    dept_no int PRIMARY KEY,
+    name varchar(20)
+    );
+
+INSERT INTO Department (dept_no, name) 
+VALUES
+(1, 'Sales'),
+(2, 'Marketing'),
+(3, 'Engineering'),
+(4, 'Human Resources'),
+(5, 'Finance');
+
+CREATE table Students (
+    std_id int PRIMARY KEY,
+    gender varchar(10),
+    name varchar(20),
+    dob int not null,
+    projectno int not null,
+    dept_no int,
+    FOREIGN KEY(dept_no) REFERENCES department(dept_no)
+    );
+INSERT INTO Students (std_id, gender, name, dob, projectno, dept_no) 
+VALUES
+(101, 'M', 'Brown', '2000-02-10', 201, 1),
+(102, 'F', 'Green', '1999-07-22', 202, 2),
+(103, 'M', 'White', '2001-11-12', 203, 3),
+(104, 'F', 'Black', '1998-06-30', 204, 4),
+(105, 'M', 'Blue', '2000-09-04', 205, 5);
+
+
+create table project(
+    projectno int PRIMARY KEY,
+    name varchar(20),
+    location varchar(20)
+    );
+
+INSERT INTO Project (projectno, name, location) 
+VALUES
+(201, 'A', 'New York'),
+(202, 'B', 'kathmandu'),
+(203, 'C', 'lalitpur'),
+(204, 'D', 'london'),
+(205, 'E', 'pokhara');
+
+c)SELECT Employee.name
+FROM Employee
+JOIN Department ON Employee.dept_no = Department.dept_no
+WHERE Department.name = 'BBA';
+
+
+d)SELECT empid, gender, name, dob, salary, address, dept_no, start_date
+FROM Employee
+WHERE salary > (SELECT AVG(salary) FROM Employee);
+
+e)SELECT Students.std_id, Students.name AS StudentName, Students.dob, Project.name AS ProjectName, Department.name AS DepartmentName
+FROM Students
+JOIN Project ON Students.projectno = Project.projectno
+JOIN Department ON Students.dept_no = Department.dept_no;
+
+f)UPDATE Employee
+SET salary = salary * 0.90
+WHERE salary > 10000;
+
+lab2
+c)
